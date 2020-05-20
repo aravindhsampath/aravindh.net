@@ -1,0 +1,27 @@
+  <article class="bt bb b--black-10">
+{{/*     <a class="db pv4 ph3 ph0-l no-underline black dim" href="{{ .URL }}">  */}}
+    <div class="db pv4 ph3 ph0-l">
+      <div class="flex flex-column flex-row-ns">
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          {{ if .Params.featured_image }}
+          <img src="{{ .Params.featured_image }}" class="db" alt="thumbnail for post">
+          {{ end }}
+        </div>
+        <div class="w-100 w-60-ns pl3-ns">
+          <a class="no-underline black" href="{{ .URL }}">
+              <h1 class="f4 fw5 Helvetica mt0 underline-hover lh-title">{{ .Title }}</h1>
+          
+          <p class="f6 f5-l Alegreya-sans lh-copy">
+            {{ if .Description }}
+              {{ .Description  | plainify | safeHTML }}
+            {{ else }}
+              {{ .Summary | plainify | safeHTML }}
+            {{ end }}
+          </p>
+          <p class="f6 lh-copy Alegreya-sans mv0">By Aravindh Sampathkumar</p>
+        </a>
+        </div>
+      </div>
+    {{/* </a> */}}
+  </div>
+  </article>

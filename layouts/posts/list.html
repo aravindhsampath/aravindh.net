@@ -1,0 +1,29 @@
+{{ define "main" }}
+  <section class="mw8 center avenir pb4">
+    <div class="flex flex-column flex-row-ns">
+        <div class="w-100 w-70-ns">
+    {{/* <div class="fl-ns wi-67-ns"> */}}
+
+      {{ range .Paginator.Pages }}
+          {{- partial "post_card.html" . -}}
+      {{ end }}
+
+    </div>
+    <div class="w-100 w-30-ns">
+    {{/* <div class="fr-ns wi-30-ns"> */}}
+        <main class="mw6 center bt b--black-10">
+        <h2 class="baskerville fw1 tc">Tags</h2>
+        <ul class="list pv2" id="all-tags">
+          {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+            <li class="dib mr1 mb2"><a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" class="f5 f5-ns db pa1 link dim dark-gray ba b--black-80">{{ $name }}</a></li>
+          {{ end }}
+        </ul>
+      </main>
+
+
+    </div>
+  </section>
+  <section class="mw7 center avenir">
+    {{- template "partials/pagination.html" . -}}
+  </section>
+{{ end }}

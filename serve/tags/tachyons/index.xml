@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tachyons on Aravindh.net</title>
+    <link>https://aravindh.net/tags/tachyons/</link>
+    <description>Recent content in Tachyons on Aravindh.net</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Jul 2018 17:55:47 +0200</lastBuildDate>
+    
+	<atom:link href="https://aravindh.net/tags/tachyons/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Lean &amp; fast self-hosted blog</title>
+      <link>https://aravindh.net/post/lean_blog/</link>
+      <pubDate>Sat, 14 Jul 2018 17:55:47 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/lean_blog/</guid>
+      <description>p {text-indent: 8%;} 
+Internet obesity Many websites we routinely visit are just too fat, loading huge amounts of data in the form of javascript files, unoptimized images, web fonts, ads etc. This is just plain inefficient. Take a look of a few sites that I recently visited&amp;hellip;  Source: My tests using online tool at https://tools.pingdom.com/
+Why self host? Why not? It&amp;rsquo;s fun.
+Say no to walled gardens and own the Internet.</description>
+    </item>
+    
+  </channel>
+</rss>

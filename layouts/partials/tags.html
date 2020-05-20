@@ -1,0 +1,8 @@
+<main class="mw6 center bt b--black-10">
+        <h2 class="fw5 Alegreya tc">Tags</h2>
+        <ul class="list pv2" id="all-tags">
+          {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+            <li class="dib mr1 mb2"><a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" class="f5 f5-ns db pa1 link dim dark-gray ba b--black-80">{{ $name }}</a></li>
+          {{ end }}
+        </ul>
+</main>

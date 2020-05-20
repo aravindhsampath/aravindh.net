@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sre on Aravindh.net</title>
+    <link>https://aravindh.net/tags/sre/</link>
+    <description>Recent content in sre on Aravindh.net</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Apr 2020 17:31:44 +0200</lastBuildDate>
+    
+	<atom:link href="https://aravindh.net/tags/sre/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Role of a Sysadmin</title>
+      <link>https://aravindh.net/post/sysadmin/</link>
+      <pubDate>Mon, 20 Apr 2020 17:31:44 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/sysadmin/</guid>
+      <description>A sysadmin is responsible for upkeep, configuration, and reliable operation of systems and services.
+Duties 
+Accidental sysadmin I was living in Raleigh, North Carolina, working as a Performance Engineer when I decided to move to Denmark to be with my then girlfriend, now wife, and start a family. Moving to another continent entails a lot of change and looking for a job is no different. I learned soon that finding a job as a Performance Engineer in Europe is not as straightforward as it would be in the US.</description>
+    </item>
+    
+  </channel>
+</rss>

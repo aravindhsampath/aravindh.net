@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+      <p>My posts related to the tag “{{ .Title }}” ... </p>
+    </div>
+  </article>
+  <section class="mw7 center avenir pb4">
+  {{ range .Paginator.Pages }}
+          {{- partial "post_card.html" . -}}
+  {{ end }}
+  </section>
+{{ end }}

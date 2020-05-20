@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sysadmin on Aravindh.net</title>
+    <link>https://aravindh.net/tags/sysadmin/</link>
+    <description>Recent content in Sysadmin on Aravindh.net</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Apr 2020 17:31:44 +0200</lastBuildDate>
+    
+	<atom:link href="https://aravindh.net/tags/sysadmin/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Role of a Sysadmin</title>
+      <link>https://aravindh.net/post/sysadmin/</link>
+      <pubDate>Mon, 20 Apr 2020 17:31:44 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/sysadmin/</guid>
+      <description>A sysadmin is responsible for upkeep, configuration, and reliable operation of systems and services.
+Duties 
+Accidental sysadmin I was living in Raleigh, North Carolina, working as a Performance Engineer when I decided to move to Denmark to be with my then girlfriend, now wife, and start a family. Moving to another continent entails a lot of change and looking for a job is no different. I learned soon that finding a job as a Performance Engineer in Europe is not as straightforward as it would be in the US.</description>
+    </item>
+    
+    <item>
+      <title>NFS server based on CentOS 7</title>
+      <link>https://aravindh.net/post/nfs_server_centos/</link>
+      <pubDate>Tue, 07 Aug 2018 12:12:29 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/nfs_server_centos/</guid>
+      <description>p {text-indent: 8%;} 
+NFS Network File System(NFS) is a widely used distributed filesystem that works reasonably well in most scenarios where you must share a filesytem across several computers. It can use UDP or TCP underneath for transport, and is ofcourse very much configurable to get the best out of it for specific usecases.
+At our research cluster, we use NFS for making user&amp;rsquo;s home directories and research datasets available on all compute nodes.</description>
+    </item>
+    
+    <item>
+      <title>ZFS performance</title>
+      <link>https://aravindh.net/post/zfs_performance/</link>
+      <pubDate>Sun, 29 Jul 2018 17:55:47 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/zfs_performance/</guid>
+      <description>Context This is NOT an all-in post about ZFS performance. I built a FreeBSD+ZFS file server recently at work to serve as an offsite backup server. I wanted to run a few synthetic workloads on it and look at how it fares from performance perspective. Mostly for curiosity and learning purposes.
+Performance As stated in the notes about building this server, performance was not one of the priorities, as this server will never face our active workload.</description>
+    </item>
+    
+    <item>
+      <title>ZFS file server</title>
+      <link>https://aravindh.net/post/zfs_fileserver/</link>
+      <pubDate>Mon, 16 Jul 2018 17:55:47 +0200</pubDate>
+      
+      <guid>https://aravindh.net/post/zfs_fileserver/</guid>
+      <description>p {text-indent: 8%;}  What is the need? At work, we run a compute cluster that uses an Isilon cluster as primary NAS storage. Excluding snapshots, we have about 200TB of research data, some of them in compressed formats, and others not. We needed an offsite backup file server that would constantly mirror our primary NAS and serve as a quick recovery source in case of a data loss in the the primary NAS.</description>
+    </item>
+    
+  </channel>
+</rss>

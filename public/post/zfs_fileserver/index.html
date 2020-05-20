@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Aravindh.net  | ZFS file server</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.59.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.ab4b67a3ea25990fa8279f3b7ef08b61.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="ZFS file server" />
+<meta property="og:description" content="Building a file server with FreeBSD, ZFS and a lot of disks." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://aravindh.net/post/zfs_fileserver/" />
+<meta property="article:published_time" content="2018-07-16T17:55:47+02:00" />
+<meta property="article:modified_time" content="2018-07-16T17:55:47+02:00" />
+<meta itemprop="name" content="ZFS file server">
+<meta itemprop="description" content="Building a file server with FreeBSD, ZFS and a lot of disks.">
+
+
+<meta itemprop="datePublished" content="2018-07-16T17:55:47&#43;02:00" />
+<meta itemprop="dateModified" content="2018-07-16T17:55:47&#43;02:00" />
+<meta itemprop="wordCount" content="3834">
+
+
+
+<meta itemprop="keywords" content="FreeBSD,ZFS,Sysadmin,disks,backup,filesystems,performance,storage," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ZFS file server"/>
+<meta name="twitter:description" content="Building a file server with FreeBSD, ZFS and a lot of disks."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+      	
+        <noscript id="deferred-styles">
+            <link rel="stylesheet" type="text/css" href="/css/fonts.css"/>
+        </noscript>
+        <script>
+              var loadDeferredStyles = function() {
+                var addStylesNode = document.getElementById("deferred-styles");
+                var replacement = document.createElement("div");
+                replacement.innerHTML = addStylesNode.textContent;
+                document.body.appendChild(replacement)
+                addStylesNode.parentElement.removeChild(addStylesNode);
+              };
+              var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                  window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+              if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+              else window.addEventListener('load', loadDeferredStyles);
+        </script>
+        <script data-goatcounter="https://aravindh.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+    	
+    	<style>
+              
+            .Chelsea
+            {
+                font-family:    'Chelsea',serif;
+                font-weight:    400;
+            }
+             
+            .Alegreya
+            {
+                font-family:    'Alegreya',serif;
+                 
+            }
+            .Alegreya-sans
+            {
+                font-family:    'Alegreya Sans',serif;
+                 
+            }
+            .Rancho
+            {
+                font-family:    'Rancho',serif;
+            }
+            .sysui
+            {
+                font-family: -apple-system, system-ui, BlinkMacSystemFont, 
+             'Segoe UI', Roboto, 'Helvetica Neue', 
+             Ubuntu, Arial, sans-serif;
+            }
+            pre { 
+            margin: 5px; padding: 5px; 
+            color: #aaa; background-color: #222;
+            white-space: pre; text-shadow: 0 1px 0 #000;
+            border-radius: 15px; border-bottom: 1px solid #555;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4) inset, 0 0 20px rgba(0,0,0,0.2) inset;
+            font-size: 12px !important;
+            }
+            code {
+                font-size: 12px !important;
+            }
+        </style>
+    	<header class="bg-near-white black-80 tc pv4 avenir">
+    		<h1 class="mt2 mb0 fw4 f1 black dark-blue b">Aravindh.net</h1>
+    		<div>
+        		<h2 class="mt2 mb0 f6 fw4 ttu tracked Alegreya-sans">/share/mind</h2>
+    		</div>
+    		<nav class="bt bb tc mw7 center mt4">
+        		<a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/">Home</a>
+        		<a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/about/">About</a>
+        		<a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/shelf/">Shelf</a>
+            <a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/wiki/">Wiki</a>
+        		<a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/projects/">Projects</a>
+        		<a class="f6 f5-l fw5 link bg-animate black-80 hover-bg-light-green dib pa3 ph4-l Alegreya-sans" href="/contact/">Contact</a>
+   			</nav>
+   			<main class="mw6 center pt2">
+	    		<article class="dt w-100 b--black-05 pb2 mt2" href="#0">
+	    			<div class="dtc w2 w3-ns v-mid">
+	        			<img src="/images/authorimage.png" class="ba b--black-10 db br2 w2 w3-ns h2 h3-ns"/>
+	      			</div>
+	      			<div class="dtc v-mid pl3 Alegreya-sans">
+	        			<h1 class="f6 f5-ns fw6 lh-title black mv0 tl">Aravindh Sampathkumar </h1>
+	        			<a class="no-underline" href="https://twitter.com/reacharavindh"><h2 class="f6 fw4 mt0 mb0 blue tl">@reacharavindh</h2></a>
+	        			<h2 class="f6 fw6 lh-title black-70 mv0 tl"> Performance Engineer and Sysadmin | Ex @NetApp </h2>
+	        			<h2 class="f6 fw4 mt0 mb0 black-60 tl">Jack of many trades and aspiring master of some, all around good guy to have on your team.</h2>
+	      			</div>
+	    		</article>
+			</main>
+		</header>
+
+    <main class="pb3" role="main">
+      
+
+
+<article class="mw8 mw8-ns center bg-near-white">
+  <div class="flex flex-column flex-row-ns">
+    <div class="pa2 pa0-ns pr3-ns mb2 mb0-ns w-100 w-30-ns">
+      <img src="/images/zfs_server.png" class="db" alt="Featured image of this post">
+    </div>
+    <div class="w-100 w-70-ns mw6-ns pl2 pl3-ns">
+      <a class="no-underline black" href="/post/zfs_fileserver/">
+        <h1 class="f3 fw7 Helvetica mb1 lh-title dark-blue">ZFS file server</h1>
+        <time class="f6 mv1 dib tracked Alegreya-sans" datetime="2018-07-16T17:55:47&#43;02:00">July 16, 2018</time>
+        <p class="f6 lh-copy mv0 Alegreya-sans">By Aravindh Sampathkumar</p>
+      </a>
+    </div>
+  </div>
+</article>
+
+<main class="mw6 mw8-ns center bg-near-white">
+  <div class="flex flex-column flex-row-ns">
+    <div class="pa2 pa0-ns mt4-ns w-100 w-100-ns f5 f4-ns fw3 sysui lh-copy measure-wide center">
+
+<style>
+p {text-indent: 8%;}
+</style>
+
+<h3 id="what-is-the-need">What is the need?</h3>
+
+<p>At work, we run a compute cluster that uses an Isilon cluster as primary NAS storage. Excluding snapshots, we have about 200TB of research data, some of them in compressed formats, and others not. We needed an offsite backup file server that would constantly mirror our primary NAS and serve as a quick recovery source in case of a data loss in the the primary NAS. This offsite file server would be passive - will never face the wrath of the primary cluster workload.</p>
+
+<p>In addition to the role of a passive backup server, this solution would take on some passive report generation workloads as an ideal way of offloading some work from the primary NAS. The passive work is read-only.</p>
+
+<p>The backup server would keep snapshots in a best effort basis dating back to 10 years. However, this data on this backup server would be archived to tapes periodically.
+<blockquote class="athelas ml0 mt0 pl4 black-90 bl bw2 b--blue">
+    <div class="f5 f4-m f3-l i lh-copy measure mt0">
+      Snapshots != Backups.
+    </div>
+    <cite class="f6 ttu tracked fs-normal">― Wisdom</cite>
+</blockquote>
+A simple guidance of priorities:</p>
+
+<p><strong>Data integrity  &gt;  Cost of solution  &gt;  Storage capacity  &gt;  Performance.</strong>
+<img class="pt3" src="/images/backup_server.png" class="w-100 f5 " alt="Isilon syncing with a blackbox solution syncing with the tapes"></img></p>
+
+<h3 id="why-not-enterprise-nas-netapp-fas-or-emc-isilon-or-the-like">Why not enterprise NAS? NetApp FAS or EMC Isilon or the like?</h3>
+
+<p>We decided that enterprise grade NAS like NetAPP FAS or EMC Isilon are prohibitively expensive and an overkill for our needs.</p>
+
+<p>An opensource &amp; cheaper alternative to enterprise grade filesystem with the level of durability we expect turned up to be ZFS. We&rsquo;re already spoilt from using snapshots by a clever Copy-on-Write Filesystem(WAFL) by NetApp. ZFS providing snapshots in almost identical way was a big influence in the choice. This is also why we did not consider just a CentOS box with the default XFS filesystem.</p>
+
+<h3 id="freebsd-vs-debian-for-zfs">FreeBSD vs Debian for ZFS</h3>
+
+<p>This is a backup server, a long-term solution. Stability and reliability are key requirements. ZFS on Linux may be popular at this time, but there is a lot of churn around its development, which means there is a higher probability of <a href="https://www.reddit.com/r/DataHoarder/comments/8b2peq/bug_data_loss_with_zfs_on_linux_077/">bugs like this</a> to occur. We&rsquo;re not looking for cutting edge features here. Perhaps, Linux would be considered in the future.
+<div class="dt center pb1">
+  <div class="db dtc-ns v-mid-ns">
+    <img src="/images/freebsd_zfs.png" alt="FreeBSD + ZFS" class="w-100 mw7 w5-ns" />
+  </div>
+  <div class="db dtc-ns v-mid ph2 pr0-ns pl3 pl4-ns">
+    <p class="lh-copy">
+      We already utilize FreeBSD and OpenBSD for infrastructure services and we have nothing but praises for the stability that the BSDs have provided us. We&rsquo;d gladly use FreeBSD and OpenBSD wherever possible.<br />
+    </p>
+  </div>
+</div></p>
+
+<h3 id="okay-zfs-but-why-not-freenas">Okay, ZFS, but why not FreeNAS?</h3>
+
+<p>IMHO, FreeNAS provides a integrated GUI management tool over FreeBSD for a novice user to setup and configure FreeBSD, ZFS, Jails and many other features. But, this user facing abstraction adds an extra layer of complexity to maintain that is just not worth it in simpler use cases like ours. For someone that appreciates the commandline interface, and understands FreeBSD enough to administer it, plain FreeBSD + ZFS is simpler and more robust than FreeNAS.</p>
+
+<h3 id="specifications">Specifications</h3>
+
+<div class="dt mw7 center pb1">
+  <div class="db dtc-ns v-mid-ns">
+    <img src="/images/delorean.png" alt="A bright blue sky" class="w-100 mw7 w5-ns" />
+  </div>
+  <div class="db dtc-ns v-mid ph2 pr0-ns pl3-ns">
+<ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+    <li class="ph3 pv1 bb b--light-silver">Lenovo SR630 Rackserver</li>
+    <li class="ph3 pv1 bb b--light-silver">2 X Intel Xeon silver 4110 CPUs</li>
+    <li class="ph3 pv1 bb b--light-silver">768 GB of DDR4 ECC 2666 MHz RAM</li>
+    <li class="ph3 pv1 bb b--light-silver">4 port SAS card configured in passthrough mode(JBOD)</li>
+    <li class="ph3 pv1 bb b--light-silver">Intel network card with 10 Gb SFP+ ports</li>
+    <li class="ph3 pv1 bb b--light-silver">128GB M.2 SSD for use as boot drive</li>
+</ul>
+<ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+    <li class="ph3 pv1 bb b--light-silver">2 X HGST 4U60 JBOD</li>
+    <li class="ph3 pv1 bb b--light-silver">120(2 X 60) X 10TB SAS disks</li>
+</ul>
+  </div>
+</div>
+
+<h3 id="freebsd">FreeBSD</h3>
+
+<p>Both the JBODs are connected to the rack server with dual SAS cables for connection redundancy. The rack server would see 120 disks attached to it that it can own. The rack server was in turn connected to a switch with a high bandwidth link to the primary storage server.
+Once the physical setup was complete, it was time to install FreeBSD. Simple vanilla installation of FreeBSD 11.2 based on a USB install media. Nothing out of the ordinary.</p>
+
+<p><strong>Run updates and install basic tools:</strong></p>
+
+<pre><code class="language-bash">&gt; freebsd-update fetch
+&gt; freebsd-update install 
+&gt; pkg upgrade
+&gt; pkg install nano htop zfsnap screen rsync
+&gt; echo 'sshd_enable=&quot;YES&quot;' &gt;&gt; /etc/rc.conf
+&gt; service sshd start
+</code></pre>
+
+<h3 id="zfs">ZFS</h3>
+
+<p>The Z File System, is actually more than just a filesystem. It serves as a volume manager + filesystem. It is almost always better to provide raw disks to ZFS instead of building RAID to make multiple disks appear as one. In our setup we&rsquo;d like for the 120 disks from JBODs to be owned by ZFS.</p>
+
+<p><strong>Enable ZFS</strong></p>
+
+<pre><code class="language-bash">&gt; echo 'zfs_enable=&quot;YES&quot;' &gt;&gt; /etc/rc.conf
+&gt; service zfs start
+</code></pre>
+
+<h3 id="basic-zfs-terminology">Basic ZFS terminology</h3>
+
+<p>A storage pool(zpool) is the most basic building block of ZFS. A pool is made up of one or more vdevs, the underlying devices that store the data. A zpool is then used to create one or more file systems (datasets). A vdev is usually a group of disks(RAID).ZFS spreads data across the vdevs to increase performance and maximize usable space.
+<img class="pt3" src="/images/zfs_terminology.png" class="w-100 f5" alt="ZFS terminology"></img></p>
+
+<p>When building out a ZFS based filesystem, one needs to carefully plan the number and type of vdevs, number of disks in each vdev etc according to their specific needs. Simple fact is that the more vdevs you add, the more ZFS spreads the writes thereby improving performance. However, each vdev(equivalent of a RAID group in NetApp world) dedicates some disk space for parity data to provide the recoverability that we desire from ZFS. This simply translates to another fact that using more number of vdevs will result in reduced usable storage capacity.</p>
+
+<p>Just to be clear, the parity and redundancy are only within a vdev. if the system loses a disk in a vdev, it holds up, and resilvers a spare disk or awaits a new disk, but still servicing user work. But, if the system loses a vdev, the entire zpool is bust. Keep this in mind when you plan for redundancy.</p>
+
+<p>Given that I have 120 disks at my disposal, I needed to choose between the following options on my drawing board.
+I decided to go with RAIDZ2 so that the system can tolerate simultaneous failure of 2 disks per vdev. Considering that I have hot spares, anything beyond RAIDZ2 would be an overkill for my needs. RAIDZ2 is already beyond our needs.</p>
+
+<p>Raw storage (plain disks without any RAID) = 10 TB X 120 = 1.2 PB or 1091.4 TiB.</p>
+
+<div class="dt mw7 center pv2 pb3">
+  <div class="db dtc-ns v-mid-ns">
+    <img src="/images/tebibyte.png" alt="What is a Tebibyte" class="w-100 mw7 w5-ns" />
+  </div>
+  <div class="db dtc-ns v-mid ph2 pr0-ns pl3-ns">
+    As per SI system, </br>
+    Gigabyte(GB) is 1000000000 bytes or 10<sup>9</sup> bytes. </br>
+    However, per binary prefix system, </br>
+    Gibibyte(GiB) is 1073741824 bytes or 2<sup>30</sup> bytes. </br>
+    Harddrive manufacturers use GB & TB, but standard unix tools like du and df gives out numbers in KiB, GiB and TiB. So, I'll stick to this convention.</br>
+  </div>
+</div>
+</br>
+<div class="overflow-auto">
+    <table class="f6 w-100 mw8 center helvetica" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Number of vdevs</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Disks per vdev</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Spare disks</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Num parity disks(2 per vdev)</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Effective storage ratio</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Usable ZFS storage</th>
+        </tr>
+      </thead>
+      <tbody class="lh-copy">
+        <tr>
+          <td class="pv3 pr3 bb b--black-20">9</td>
+          <td class="pv3 pr3 bb b--black-20">13</td>
+          <td class="pv3 pr3 bb b--black-20">3</td>
+          <td class="pv3 pr3 bb b--black-20">18</td>
+          <td class="pv3 pr3 bb b--black-20">(120 - 3 spares - 18 parity disks) / 120 = <b>82.5%</b></td>
+          <td class="pv3 pr3 bb b--black-20">82.5% of 1091.4 TiB = <b>900.3 TiB</b></td>
+        </tr>
+        <tr>
+          <td class="pv3 pr3 bb b--black-20">14</td>
+          <td class="pv3 pr3 bb b--black-20">8</td>
+          <td class="pv3 pr3 bb b--black-20">8</td>
+          <td class="pv3 pr3 bb b--black-20">28</td>
+          <td class="pv3 pr3 bb b--black-20">(120 - 8 spares - 28 parity disks) / 120 =<b>70%</b></td>
+          <td class="pv3 pr3 bb b--black-20">70% of 1091.4 TiB = <b>763.7 TiB</b></td>
+        </tr>
+        <tr>
+          <td class="pv3 pr3 bt bl b--black-20">11</td>
+          <td class="pv3 pr3 bt b--black-20">10</td>
+          <td class="pv3 pr3 bt b--black-20">4</td>
+          <td class="pv3 pr3 bt b--black-20">22</td>
+          <td class="pv3 pr3 bt b--black-20">(110 - 22 parity disks) / 110 =<b>80%</b></td>
+          <td class="pv3 pr3 bt br b--black-20">80% of 1000.45 TiB = <b>800 TiB</b></td>
+        </tr>
+        <tr>
+          <td class="pv3 pr3 bb bl b--black-20">1</td>
+          <td class="pv3 pr3 bb b--black-20">6</td>
+          <td class="pv3 pr3 bb b--black-20">4</td>
+          <td class="pv3 pr3 bb b--black-20">2</td>
+          <td class="pv3 pr3 bb b--black-20">(6 - 2 parity disks) / 6 =<b>67%</b></td>
+          <td class="pv3 pr3 bb br b--black-20">67% of 54.5 TiB = <b>36.5 TiB</b></td>
+        </tr>
+        <tr>
+          <td class="pv3 pr3 bl bb bt b--dark-blue">14</td>
+          <td class="pv3 pr3 bb bt b--dark-blue">NA</td>
+          <td class="pv3 pr3 bb bt b--dark-blue">4</td>
+          <td class="pv3 pr3 bb bt b--dark-blue">24</td>
+          <td class="pv3 pr3 bb bt b--dark-blue">(120 - 4 spares - 24 parity disks) / 120 =<b>76.6%</b></td>
+          <td class="pv3 pr3 br bb bt b--dark-blue">76.6% of 1091.4 TiB = <b>836 TiB</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<p>Each of the three above choice balances a tradeoff between storage capacity, failure tolerance, and performance. I chose to go with the third choice, which is to build two separate pools - one for the data, and other for backing up our infrastructure servers(DNS, FreeIPA, Firewall etc).
+The data zpool (sec_stor) will have 10 disks per vdev and can tolerate a simultaneous failure of two disks within a vdev(and failure of upto 24 disks if they are distributed as two failures per vdev). The hot spares are expected to kick in the moment even one of them fails, so it is sufficient to keep the data safe.</p>
+
+<h3 id="ashift-and-a-boat-load-of-luck">ashift and a boat load of luck</h3>
+
+<p>(updated information after feedback from <a href="https://www.reddit.com/r/zfs/comments/92luoz/show_reddit_blog_post_detailing_experience_of/">Reddit r/zfs</a> by Jim Salter - <a href="https://twitter.com/jrssnet">@jrssnet</a> and u/fengshui)</p>
+
+<p><strong>What is ashift?</strong>
+Here is a snip from <a href="http://open-zfs.org/wiki/Performance_tuning#Alignment_Shift_.28ashift.29">open-zfs wiki</a>:</p>
+
+<p>vdevs contain an internal property called ashift, which stands for alignment shift. It is set at vdev creation and it is immutable. It is calculated as the maximum base 2 logarithm of the physical sector size of any child vdev and it alters the disk format such that writes are always done according to it. This makes <b><i>2<sup>ashift</sup> the smallest possible IO on a vdev</b></i>.</p>
+
+<p>Configuring ashift correctly is important because partial sector writes incur a penalty where the sector must be read into a buffer before it can be written. ZFS makes the implicit assumption that the sector size reported by drives is correct and calculates ashift based on that.</p>
+
+<p>In an ideal world, ZFS making an automatic choice based on what the disk declares about itself would be sweet. But, the world is not ideal!. You see, Some operating systems, such as Windows XP, were written under the assumption that sector sizes are 512 bytes and will not function when drives report a different sector size. So, instead of not supporting those old operating systems for the newest drives, the disk manufacturers sometimes decide to make the disk lie about its sector size. For example, in Jim&rsquo;s case, a Kingston A400 SSD was advertizing its sector size as 512 bytes, when its actual sector was 8K. The performance cost of this idiocy is anecdotally orders of magnitude high. 🤦‍♂️</p>
+
+<p>Having learnt all of this information on Reddit <em>after</em> I deployed the backup server, I franctically tried to find out what ZFS was doing in my case.</p>
+
+<p>I found the spec sheet for the HGST NAS 10TB SAS drives I used. It claims the disks are &ldquo;Sector Size (Variable, Bytes/sector) 4Kn: 4096 512e: 512&rdquo;. So, at the least these drives support 4K sector sizes.</p>
+
+<p>First from sysctl, about what ZFS is reporting as ashift..</p>
+
+<pre><code class="language-bash">root@delorean:/sec_stor/backup/fiotest/fio-master # sysctl -a|grep ashift
+vfs.zfs.min_auto_ashift: 9
+vfs.zfs.max_auto_ashift: 13
+</code></pre>
+
+<p>This doesnt quite help, as the min_auto_ashift is still 9, which means that it is possible for ZFS to be using 2<sup>9</sup>=512 bytes as sector size. But, it does give a breather that the max was above what I desire - 12.</p>
+
+<p>So, I ran <code>zdb</code> to find out what ZFS reports as its running configuration.</p>
+
+<pre><code class="language-bash">root@delorean:/sec\_stor/backup/fiotest/fio-master # zdb | grep ashift
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+ashift: 12
+</code></pre>
+
+<div class="dt center pt1 pb1">
+  <div class="db dtc-ns v-mid-ns">
+    <img src="/images/dodge_bullet.jpg" alt="Yoda dodge bullet" class="w-100 mw7 w5-ns" />
+  </div>
+  <div class="db dtc-ns v-mid ph2 pr0-ns pl3 pl4-ns">
+    <p class="lh-copy">
+      Whooof! All 12 of my vdevs are reporting a ashift of 12. Which means that they correctly identified the disks as with 4K sector sizes. I didnt make a mistake with a immutable config parameter purely by luck.
+    </p>
+  </div>
+</div>
+
+<p>Okay. on with the original flow of the blog post&hellip;</p>
+
+<h3 id="making-zfs-happen">Making ZFS happen</h3>
+
+<p>It&rsquo;s time to turn our design choices into actual configuration. As is the norm with FreeBSD, all disks are listed at <code>/dev/da*</code></p>
+
+<p>Create a zpool named sec_stor, and add the first vdev and our 4 hot spares. Then add the rest of the VDEVs.</p>
+
+<pre><code class="language-bash">&gt; zpool create sec_stor raidz2 /dev/da0 /dev/da1 /dev/da2 /dev/da3 /dev/da4 /dev/da5 /dev/da6 /dev/da7 /dev/da8 /dev/da9 spare /dev/da110 /dev/da111 /dev/da112 /dev/da113
+&gt; zpool add sec_stor raidz2 /dev/da10 /dev/da11 /dev/da12 /dev/da13 /dev/da14 /dev/da15 /dev/da16 /dev/da17 /dev/da18 /dev/da19
+&gt; zpool add sec_stor raidz2 /dev/da20 /dev/da21 /dev/da22 /dev/da23 /dev/da24 /dev/da25 /dev/da26 /dev/da27 /dev/da28 /dev/da29
+&gt; zpool add sec_stor raidz2 /dev/da30 /dev/da31 /dev/da32 /dev/da33 /dev/da34 /dev/da35 /dev/da36 /dev/da37 /dev/da38 /dev/da39
+&gt; zpool add sec_stor raidz2 /dev/da40 /dev/da41 /dev/da42 /dev/da43 /dev/da44 /dev/da45 /dev/da46 /dev/da47 /dev/da48 /dev/da49
+&gt; zpool add sec_stor raidz2 /dev/da50 /dev/da51 /dev/da52 /dev/da53 /dev/da54 /dev/da55 /dev/da56 /dev/da57 /dev/da58 /dev/da59
+&gt; zpool add sec_stor raidz2 /dev/da60 /dev/da61 /dev/da62 /dev/da63 /dev/da64 /dev/da65 /dev/da66 /dev/da67 /dev/da68 /dev/da69
+&gt; zpool add sec_stor raidz2 /dev/da70 /dev/da71 /dev/da72 /dev/da73 /dev/da74 /dev/da75 /dev/da76 /dev/da77 /dev/da78 /dev/da79
+&gt; zpool add sec_stor raidz2 /dev/da80 /dev/da81 /dev/da82 /dev/da83 /dev/da84 /dev/da85 /dev/da86 /dev/da87 /dev/da88 /dev/da89
+&gt; zpool add sec_stor raidz2 /dev/da90 /dev/da91 /dev/da92 /dev/da93 /dev/da94 /dev/da95 /dev/da96 /dev/da97 /dev/da98 /dev/da99
+&gt; zpool add sec_stor raidz2 /dev/da100 /dev/da101 /dev/da102 /dev/da103 /dev/da104 /dev/da105 /dev/da106 /dev/da107 /dev/da108 /dev/da109
+</code></pre>
+
+<p>Verify that the zpool is what we expect it to be and that all devices are online.</p>
+
+<pre><code class="language-bash">root@delorean:~ # zpool status
+  pool: sec_stor
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME         STATE     READ WRITE CKSUM
+	sec_stor     ONLINE       0     0     0
+	  raidz2-0   ONLINE       0     0     0
+	    da0      ONLINE       0     0     0
+	    da1      ONLINE       0     0     0
+	    da2      ONLINE       0     0     0
+	    da3      ONLINE       0     0     0
+	    da4      ONLINE       0     0     0
+	    da5      ONLINE       0     0     0
+	    da6      ONLINE       0     0     0
+	    da7      ONLINE       0     0     0
+	    da8      ONLINE       0     0     0
+	    da9      ONLINE       0     0     0
+	  raidz2-1   ONLINE       0     0     0
+	    da10     ONLINE       0     0     0
+	    da11     ONLINE       0     0     0
+	    da12     ONLINE       0     0     0
+	    da13     ONLINE       0     0     0
+	    da14     ONLINE       0     0     0
+	    da15     ONLINE       0     0     0
+	    da16     ONLINE       0     0     0
+	    da17     ONLINE       0     0     0
+	    da18     ONLINE       0     0     0
+	    da19     ONLINE       0     0     0
+	  raidz2-2   ONLINE       0     0     0
+	    da20     ONLINE       0     0     0
+	    da21     ONLINE       0     0     0
+	    da22     ONLINE       0     0     0
+	    da23     ONLINE       0     0     0
+	    da24     ONLINE       0     0     0
+	    da25     ONLINE       0     0     0
+	    da26     ONLINE       0     0     0
+	    da27     ONLINE       0     0     0
+	    da28     ONLINE       0     0     0
+	    da29     ONLINE       0     0     0
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ trimmed for brevity. 
+	  raidz2-10  ONLINE       0     0     0
+	    da100    ONLINE       0     0     0
+	    da101    ONLINE       0     0     0
+	    da102    ONLINE       0     0     0
+	    da103    ONLINE       0     0     0
+	    da104    ONLINE       0     0     0
+	    da105    ONLINE       0     0     0
+	    da106    ONLINE       0     0     0
+	    da107    ONLINE       0     0     0
+	    da108    ONLINE       0     0     0
+	    da109    ONLINE       0     0     0
+	spares
+	  da110      AVAIL   
+	  da111      AVAIL   
+	  da112      AVAIL   
+	  da113      AVAIL   
+
+errors: No known data errors
+</code></pre>
+
+<p>Create the second zpool</p>
+
+<pre><code class="language-bash">zpool create config_stor raidz2 /dev/da114 /dev/da115 /dev/da116 /dev/da117 /dev/da118
+</code></pre>
+
+<p>Lets see how much storage we built on this server.</p>
+
+<pre><code class="language-bash">root@delorean:~ # df -h
+Filesystem     Size    Used   Avail Capacity  Mounted on
+/dev/ada0p2    111G    1.8G    100G     2%    /
+devfs          1.0K    1.0K      0B   100%    /dev
+sec_stor       735T    201K    735T     0%    /sec_stor
+config_stor     26T    157K     26T     0%    /config_stor
+</code></pre>
+
+<h3 id="the-curious-case-of-missing-65tib">The curious case of missing 65TiB ?!</h3>
+
+<p>According to the table earlier, I was supposed to have 800 TiB of usable ZFS storage. I see only 735 TiB. Where did the 65 TiB go?</p>
+
+<p>My understanding was that the choice RAIDZ2 means that I&rsquo;d lose 2 disks worth of storage space for parity as overhead. But, I was wrong. If you take reservations for parity and padding into account, and add in an extra 2.3% of slop space allocation, it explains the missing 65 TiB of storage capacity.
+Read through the <a href="https://www.reddit.com/r/zfs/comments/9045ke/help_understanding_storage_math_please/">Reddit post</a> here to see the discussion.</p>
+
+<p>You can use the <a href="http://wintelguy.com/zfs-calc.pl">calculator here</a> to make more accurate capacity estimations than I did above.</p>
+
+<p>For ZFS to make use of this storage we made available, we need to create a ZFS &ldquo;dataset&rdquo; on top of this. A zfs dataset is synonymous to a filesystem. Before we get to it, we need to think about a couple of ZFS storage efficiency features: Compression and Deduplication.</p>
+
+<h3 id="storage-efficiency-compression-and-deduplication">Storage efficiency: (Compression and Deduplication)</h3>
+
+<p><strong>Compression:</strong> (Source: FreeBSD docs) ZFS provides transparent compression. Compressing data at the block level as it is written not only saves space, but can also increase disk throughput. If data is compressed by 25%, but the compressed data is written to the disk at the same rate as the uncompressed version, resulting in an effective write speed of 125%. Compression can also be a great alternative to Deduplication because it does not require additional memory.</p>
+
+<p>ZFS offers several different compression algorithms, each with different trade-offs. The biggest advantage to LZ4 is the early abort feature. If LZ4 does not achieve at least 12.5% compression in the first part of the data, the block is written uncompressed to avoid wasting CPU cycles trying to compress data that is either already compressed or uncompressible.</p>
+
+<p><strong>Deduplication:</strong> When enabled, deduplication uses the checksum of each block to detect duplicate blocks. However, be warned: deduplication requires an extremely large amount of memory, and most of the space savings can be had without the extra cost by enabling compression instead.</p>
+
+<p>Having chosen LZ4 compression, we decided that the cost of dedupe in terms of memory requirements is not worth the effort in our usecase.</p>
+
+<h4 id="zfs-datasets">ZFS datasets</h4>
+
+<p>With choice of compression already made, create ZFS datasets using:</p>
+
+<pre><code class="language-bash">zfs create -o compress=lz4 -o snapdir=visible /sec_stor/backup
+zfs create -o compress=lz4 -o snapdir=visible config_stor/backup
+</code></pre>
+
+<h4 id="hot-spares">Hot spares</h4>
+
+<p>ZFS allows  devices to be associated with pools as &ldquo;hot spares&rdquo;. These devices are not actively used in the pool, but when an active device fails, it is automatically replaced by a hot spare. This feature requires a userland helper. FreeBSD provides zfsd(8) for this purpose. It must be manually enabled by adding zfsd_enable=&ldquo;YES&rdquo; to /etc/rc.conf.
+With choice of compression already made, create ZFS datasets using:</p>
+
+<pre><code class="language-bash">echo 'zfsd_enable=“YES”' &gt;&gt; /etc/rc.conf
+</code></pre>
+
+<h3 id="zfs-snapshots-on-time">ZFS snapshots (on time)</h3>
+
+<p>A key requirement in our solution is snapshots. A snapshot provides a read-only, point-in-time copy of the dataset. In a Copy-On-Write(COW) filesystem such as ZFS, snapshots come with very little cost because they are essentially nothing more than a point of duplication of blocks. Having regular scheduled snapshots, enables an user/administrator to recover deleted files from back in time saving enormous time &amp; effort of restoring files from tape archives. In our specific usecase, it is not very uncommon for a user to request restoration of a research dataset that was intentionally deleted say 6 months ago. Instead of walking over to the archive room, finding the appropriate tapes, loading them into the robot, dealing with NetBackup, and patiently wait while it restores the dataset, I can just do</p>
+
+<pre><code class="language-bash"> cd location/deleted/data
+ cp -R .zfs/snapshot/2018-06-10_13.00.00--30d/* .
+ echo &quot;Sysadmin is happy!&quot;
+</code></pre>
+
+<p>We already installed a package - zfsnap earlier in the setup. <a href="https://github.com/zfsnap/zfsnap">zfsnap</a> is a utility that helps with creation and deletion of snapshots. A simple way to create a manual snapshot is possible without installing zfsnap..</p>
+
+<pre><code class="language-bash">zfs snapshot -r mypool@my_recursive_snapshot
+</code></pre>
+
+<p>But, we installed zfsnap for convenience.
+As a quick example, here is a one shot command to create a snapshot with a retention period of 10 years:</p>
+
+<pre><code class="language-bash">/usr/local/sbin/zfSnap -a 10y -r sec_stor/backup
+</code></pre>
+
+<p>As a backup server, I want this system to have a schedule of snapshots so that data can be recovered back in time, with varying levels of granularity. Here is what I came up with in our cron schedule for our needs.
+snip from <code>/etc/crontab</code> :</p>
+
+<pre><code class="language-bash"># Run ZFS snapshot daily at 1 PM with retention period of 30 days
+0       13      *       *       *       root    /usr/local/sbin/zfSnap -a 30d -r sec_stor/backup
+# Run ZFS snapshot monthly at 2 PM on the first day of the month with retention period of 1 year
+0       14      1       *       *       root    /usr/local/sbin/zfSnap -a 1y -r sec_stor/backup
+# Run ZFS snapshot yearly at 3 PM on 6th January every year with retention period of 10 years
+0       15      6       *       *       root    /usr/local/sbin/zfSnap -a 10y -r sec_stor/backup
+# Run deletion of older stale snapshots at 4 PM on first day of every month
+0       16      1       *       *       root    /usr/local/sbin/zfSnap -d sec_stor/backup
+</code></pre>
+
+<p>This way, I get daily snapshots for 30 days, monthly snapshots for a year, yearly snapshots for 10 years. This will be communicated to the users in advance, so that they what to expect in terms of recovery from backups.</p>
+
+<p>The last cron job is to clear out older snapshots that expire. For example, a daily snaphot from 35 days ago.</p>
+
+<p>To give you an idea, here is the state of the server after a few months in operation:</p>
+
+<pre><code class="language-bash">$ zfs list -t all 
+NAME                                       USED  AVAIL  REFER  MOUNTPOINT
+config_stor                               1.16M  25.9T   156K  /config_stor
+config_stor/backup                         156K  25.9T   156K  /config_stor/backup
+sec_stor                                   161T   574T   201K  /sec_stor
+sec_stor/backup                            161T   574T   140T  /sec_stor/backup
+sec_stor/backup@2018-06-30_13.00.00--30d  6.46G      -   133T  -
+sec_stor/backup@2018-07-01_13.00.00--30d      0      -   134T  -
+sec_stor/backup@2018-07-01_14.00.00--1y       0      -   134T  -
+sec_stor/backup@2018-07-01_16.00.00--1m       0      -   134T  -
+sec_stor/backup@2018-07-02_13.00.00--30d  3.52G      -   134T  -
+sec_stor/backup@2018-07-03_13.00.00--30d  3.52G      -   134T  -
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ trimmed for brevity. 
+</code></pre>
+
+<p>Another view of the system after a few months of operation, to see how compression is working out for us.</p>
+
+<pre><code class="language-bash">$ zfs get used,compressratio,compression,logicalused sec_stor/backup
+NAME             PROPERTY       VALUE     SOURCE
+sec_stor/backup  used           161T      -
+sec_stor/backup  compressratio  1.42x     -
+sec_stor/backup  compression    lz4       local
+sec_stor/backup  logicalused    224T      -
+</code></pre>
+
+<p>1.42x is excellent. Basically, the sytem uses only 161T to store data that is 224T in size. Cool.</p>
+
+<h4 id="scrub-performance">Scrub performance</h4>
+
+<p>Having disks as big as 10TB, and many of them(even 10) could be a lot of work to scrub/rebuild. I&rsquo;m not directly concerned about the degraded performance during a long scrub/rebuild, but I&rsquo;m concerned that during the long scrub time, the VDEV will be vulnerable (with tolerance of only 1 additional disk failure). I read from a <a href="https://wiki.freebsd.org/ZFSTuningGuide">ZFS tuning guide</a> that the following will help in this case,
+&ldquo;If you&rsquo;re getting horrible performance during a scrub or resilver, the following sysctls can be set:&rdquo;</p>
+
+<pre><code class="language-bash">cat &lt;&lt;EOF &gt;&gt; /etc/sysctl.conf
+vfs.zfs.scrub_delay=0
+vfs.zfs.top_maxinflight=128
+vfs.zfs.resilver_min_time_ms=5000
+vfs.zfs.resilver_delay=0
+EOF
+</code></pre>
+
+<p>This basically tells ZFS to ignore user side performance and get the scrub done. This will impact your user facing performance, but this being a backup server, we can safely play with these toggles. This change above is pre-mature optimization and is often considered evil to do such a thing. But, since availability is not critical in my use-case, I felt okay doing such a thing  <code>¯\_(ツ)_/¯</code></p>
+
+<h3 id="performance">Performance</h3>
+
+<p>As stated earlier, performance was not a major goal for this setup. However, we&rsquo;ll be missing out on fun if we didnt see some numbers while the system is pushed harder. I tested the write performance of this server with 0%, 50% &amp; 100% compressible data. I detailed my notes on how I went about setting up and viewing results on a <a href="https://aravindh.net/post/zfs_performance/">follow-up post here</a>.</p>
+
+<h3 id="essential-zfs-commands">Essential zfs commands</h3>
+
+<p>For quick reference, here are some zfs related commands I run on the server from time to time to check on the status.</p>
+
+<pre><code class="language-bash"># List the state of zpool
+&gt; zpool list
+
+# Show status of individual disks in the zpool
+&gt; zpool status
+
+# Show ZFS dataset(filesystem) stats
+&gt; zfs list
+
+# Show percentage savings from compression
+&gt; zfs get used,compressratio,compression,logicalused &lt;dataset name&gt;
+
+# List all available snapshots in the system
+&gt; zfs list -t filesystem,snapshot
+
+# Watch read/write bandwidth in real time for an entire zpool
+&gt; zpool iostat -Td -v 1 10
+
+# Watch per second R/W bandwidth util on zpool in a terse way
+&gt; zpool iostat &lt;pool name&gt; 1
+
+# Watch disk util for all disks in real time
+&gt; systat -iostat -numbers -- 1
+
+# A one stop command to get all ZFS related stats: https://www.freshports.org/sysutils/zfs-stats
+# Install and run it using:
+&gt; pkg install zfs-stats
+&gt; zfs-stats -a
+
+# Get configuration information at zpool level
+&gt; zpool get &lt;pool name&gt;
+
+# Get configuration information at zfs level
+&gt; zfs get all &lt;dataset name&gt;
+
+</code></pre>
+
+<h3 id="references">References:</h3>
+
+<p><a href="https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/zfs.html">FreeBSD Handbook</a></p>
+
+<p>$ <a href="https://www.michaelwlucas.com/os/fmzfs">Book - FreeBSD Mastery by Michael W. Lucas</a></p>
+
+<p><a href="https://calomel.org/zfs_health_check_script.html">Calomel.org - ZFS health check</a></p>
+
+<p><a href="https://wiki.freebsd.org/ZFSTuningGuide">ZFS tuning guide</a></p>
+
+<p><a href="https://www.reddit.com/r/zfs/comments/87pwk9/comment_on_my_config_10_x_12_disk_raidz2_or_9_x/">Reddit discussion on zpool choices</a></p>
+
+<p><a href="https://www.reddit.com/r/zfs/comments/8qa19y/sanity_check_cluster_storage_server_zfs/">Reddit discussion on ZFS configuration</a></p>
+
+<p><a href="https://www.freshports.org/sysutils/zfs-stats">zfs-stats</a></p>
+
+<p><a href="https://www.reddit.com/r/zfs/comments/92luoz/show_reddit_blog_post_detailing_experience_of/">This blog post on Reddit for feedback</a></p>
+
+<p><a href="http://jrs-s.net">Jim Salter&rsquo;s blog</a></p>
+
+<section class="ph3 ph5-ns pv5">
+  <article class="mw8 center br2 ba b--light-blue bg-lightest-blue">
+    <div class="dt-ns dt--fixed-ns w-100">
+      <div class="pa3 pa4-ns dtc-ns v-mid">
+        <div>
+          <h2 class="fw4 blue mt0 mb3">ZFS Performance </h2>
+          <p class="black-70 measure lh-copy mv0">
+            A follow-up post on measuring write performance of this server. 
+          </p>
+        </div>
+      </div>
+      <div class="pa3 pa4-ns dtc-ns v-mid">
+        <a href="https://aravindh.net/post/zfs_performance/" class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2"> > Read < </a>
+      </div>
+    </div>
+  </article>
+</section>
+</div>
+    <div class="w-100 w-30-ns pl1 pl4-ns mt4-ns"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links Alegreya">
+    <p class="f5 b mb3">What's in this Post</p>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#what-is-the-need">What is the need?</a></li>
+<li><a href="#why-not-enterprise-nas-netapp-fas-or-emc-isilon-or-the-like">Why not enterprise NAS? NetApp FAS or EMC Isilon or the like?</a></li>
+<li><a href="#freebsd-vs-debian-for-zfs">FreeBSD vs Debian for ZFS</a></li>
+<li><a href="#okay-zfs-but-why-not-freenas">Okay, ZFS, but why not FreeNAS?</a></li>
+<li><a href="#specifications">Specifications</a></li>
+<li><a href="#freebsd">FreeBSD</a></li>
+<li><a href="#zfs">ZFS</a></li>
+<li><a href="#basic-zfs-terminology">Basic ZFS terminology</a></li>
+<li><a href="#ashift-and-a-boat-load-of-luck">ashift and a boat load of luck</a></li>
+<li><a href="#making-zfs-happen">Making ZFS happen</a></li>
+<li><a href="#the-curious-case-of-missing-65tib">The curious case of missing 65TiB ?!</a></li>
+<li><a href="#storage-efficiency-compression-and-deduplication">Storage efficiency: (Compression and Deduplication)</a>
+<ul>
+<li><a href="#zfs-datasets">ZFS datasets</a></li>
+<li><a href="#hot-spares">Hot spares</a></li>
+</ul></li>
+<li><a href="#zfs-snapshots-on-time">ZFS snapshots (on time)</a>
+<ul>
+<li><a href="#scrub-performance">Scrub performance</a></li>
+</ul></li>
+<li><a href="#performance">Performance</a></li>
+<li><a href="#essential-zfs-commands">Essential zfs commands</a></li>
+<li><a href="#references">References:</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+
+
+
+
+</div>
+
+</main>
+
+    </main>
+    <footer class="pv1 ph3 ph5-m ph6-l bg-black">
+	<div class="tc">
+    	<a class="light-gray f3 f2-ns fw5 tc link dim dib mt4 mb4 mb0-l Alegreya-sans" href="mailto:aravindh@fastmail.com" >
+        	aravindh@fastmail.com
+    	</a>
+  </div>
+  <div class="tc mt3 mb6">
+    	<a class="link near-white hover-blue dib h2 w2 mr3" href="https://github.com/aravindhsampath" title="GitHub">
+      		<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.083-.202-.358-1.015.077-2.117 0 0 .672-.215 2.2.82.638-.178 1.323-.266 2.003-.27.68.004 1.364.092 2.003.27 1.527-1.035 2.198-.82 2.198-.82.437 1.102.163 1.915.08 2.117.513.56.823 1.274.823 2.147 0 3.073-1.87 3.75-3.653 3.947.287.246.543.735.543 1.48 0 1.07-.01 1.933-.01 2.195 0 .215.144.463.55.385C13.71 14.53 16 11.534 16 8c0-4.418-3.582-8-8-8"/></svg>
+    	</a>
+    	<a href="https://www.facebook.com/aravindh.sathish" class="link dim dib mr3 near-white" title="Impossible Labs on Facebook">
+        	<svg class="db w2 h2" data-icon="facebook" viewBox="0 0 32 32" fill="currentColor">
+          	<title >facebook icon</title>
+          	<path d="M8 12 L13 12 L13 8 C13 2 17 1 24 2 L24 7 C20 7 19 7 19 10 L19 12 L24 12 L23 18 L19 18 L19 30 L13 30 L13 18 L8 18 z">	
+          		</path>
+        	</svg>
+    	</a>
+    	<a href="https://twitter.com/reacharavindh" class="link dim dib mr3 near-white">
+        	<svg class="db w2 h2" data-icon="twitter" viewBox="0 0 32 32"
+          		fill="currentColor" >
+          		<title >twitter icon</title>
+          		<path d="M2 4 C6 8 10 12 15 11 A6 6 0 0 1 22 4 A6 6 0 0 1 26 6 A8 8 0 0 0 31 4 A8 8 0 0 1 28 8 A8 8 0 0 0 32 7 A8 8 0 0 1 28 11 A18 18 0 0 1 10 30 A18 18 0 0 1 0 27 A12 12 0 0 0 8 24 A8 8 0 0 1 3 20 A8 8 0 0 0 6 19.5 A8 8 0 0 1 0 12 A8 8 0 0 0 3 13 A8 8 0 0 1 2 4">
+          		</path>
+        	</svg>
+    	</a>
+    	<a href="https://www.linkedin.com/in/aravindhsampath/" class="link dim dib black-30">
+        	<svg class="db w2 h2" x="0px" y="0px" viewBox="0 0 48 48" >
+          		<linearGradient gradientUnits="userSpaceOnUse" x1="23.9995"
+            		y1="0" x2="23.9995" y2="48.0005" >
+            		<stop offset="0" ></stop>
+            		<stop offset="1" ></stop>
+          		</linearGradient>
+          		<path fill="currentColor" d="M48,42c0,3.313-2.687,6-6,6H6c-3.313,0-6-2.687-6-6V6 c0-3.313,2.687-6,6-6h36c3.313,0,6,2.687,6,6V42z">
+          		</path>
+          		<g >
+            		<g >
+              			<path fill="#FFFFFF" d="M15.731,11.633c-1.608,0-2.658,1.083-2.625,2.527c-0.033,1.378,1.018,2.494,2.593,2.494 c1.641,0,2.691-1.116,2.691-2.494C18.357,12.716,17.339,11.633,15.731,11.633z M13.237,35.557h4.988V18.508h-4.988V35.557z M31.712,18.748c-1.595,0-3.222-0.329-4.956,2.36h-0.099l-0.087-2.599h-4.417c0.065,1.411,0.074,3.518,0.074,5.52v11.529h4.988 v-9.854c0-0.46,0.065-0.919,0.196-1.248c0.328-0.919,1.149-1.871,2.527-1.871c1.805,0,2.527,1.411,2.527,3.479v9.494h4.988V25.439 C37.455,20.713,34.993,18.748,31.712,18.748z">
+              			</path>
+            		</g>
+         		</g>
+        	</svg>
+    	</a>
+  	</div>
+
+</footer>
+</body>
+</html>
+
+    
+
+  <script async src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
