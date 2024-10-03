@@ -1,6 +1,0 @@
-baseURL = "https://aravindh.net/"
-languageCode = "en-us"
-title = "Aravindh.net"
-theme = "ananke"
-paginate = 12
-production = true
