@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FreeBSD on Aravindh.net</title>
+    <link>https://aravindh.net/tags/freebsd/</link>
+    <description>Recent content in FreeBSD on Aravindh.net</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Made with ♥ by a human.</copyright>
+    <lastBuildDate>Sun, 29 Jul 2018 12:00:00 +0000</lastBuildDate>
+    <atom:link href="https://aravindh.net/tags/freebsd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Analyzing ZFS performance</title>
+      <link>https://aravindh.net/posts/zfs-performance/</link>
+      <pubDate>Sun, 29 Jul 2018 12:00:00 +0000</pubDate>
+      <guid>https://aravindh.net/posts/zfs-performance/</guid>
+      <description>A look at ZFS performance with &amp;amp; without compression.</description>
+    </item>
+    <item>
+      <title>Building a file server with FreeBSD, ZFS and a lot of disks</title>
+      <link>https://aravindh.net/posts/file-server-freebsd-zfs/</link>
+      <pubDate>Mon, 16 Jul 2018 12:00:00 +0000</pubDate>
+      <guid>https://aravindh.net/posts/file-server-freebsd-zfs/</guid>
+      <description>This is a story of how I built a Storage server based on FreeBSD and ZFS to replace aging NetApp and Isilon storage servers that were serving HPC data over NFS.</description>
+    </item>
+  </channel>
+</rss>

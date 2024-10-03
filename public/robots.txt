@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aravindh.net/sitemap.xml

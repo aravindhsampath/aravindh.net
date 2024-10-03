@@ -1,0 +1,9 @@
+baseURL = 'https:/aravindh.net/'
+languageCode = 'en-us'
+title = 'Aravindh'
+
+[markup]
+[markup.tableOfContents]
+endLevel = 3
+ordered = false
+startLevel = 2

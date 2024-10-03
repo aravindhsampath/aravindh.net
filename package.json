@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "imagemin-webp": "^8.0.0"
+  }
+}
