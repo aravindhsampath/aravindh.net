@@ -1,6 +1,4 @@
 # Aravindh.net
-My personal website.
+[My personal website](https://aravindh.net/).
 
-Made with [Hugo](https://gohugo.io) + [Tachyons](http://tachyons.io) + [Ananke theme for Hugo](https://themes.gohugo.io/gohugo-theme-ananke/)
-
-
+Made with [Hugo](https://gohugo.io) + [Congo](https://jpanther.github.io/congo/) + [photography-portfolio](https://github.com/JoaoFranco03/photography-portfolio)
