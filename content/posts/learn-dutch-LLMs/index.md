@@ -13,7 +13,7 @@ I've been living in the Netherlands since 2021. It's time I picked up some Dutch
 
 I've been taking classes at A0, A1 and now A2 level to learn.
 
-At this moment, the engineer in me wants to hack the learning process a bit and use the assistance of LLMs such as ChatGPT to help me along the way. How? you might ask.
+At this moment, the engineer in me wants to hack the learning process a bit and use the assistance of LLMs such as ChatGPT or Claude to help me along the way. How? you might ask.
 
 I want to prepare a word list manually from my books from the language course. Supply this wordlist to ChatGPT and ask it to prepare example sentences that incorporate these words and also provide me with English translations for me to study.
 
