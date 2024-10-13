@@ -23,12 +23,8 @@ jobs:
         run: |
           hugo --minify
 
-      - name: Commit changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git config --global user.name 'github-actions[bot]'
-          git add .
-          git commit -m "Automated build and deploy of Hugo website"
-          git push origin master
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.COMMIT_TOKEN }}
+          commit_message: hugo_build_by_Actions
