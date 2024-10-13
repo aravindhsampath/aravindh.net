@@ -11,7 +11,7 @@ showReadingTime = false
 
 Here's what I am busy with:
 * Building out this website - tinkering with Hugo
-* Building a image gallery to showcase my woodworking projects.
+* Building a image gallery to showcase my woodworking projects - DONE.
 * Thinking about a pull based deploy of this website. I keep committing my changes to Git, and a faithful watcher on my virtual machine that runs the website polls for changes and _deploys_ the changes periodically.
 * Building out a headboard box for a friend.
 * Exploring Github Actions and using it to auto commit.
