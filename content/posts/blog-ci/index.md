@@ -11,7 +11,7 @@ draft=true
 +++
 
 ## Goal
-Have a seamless way to write blog posts on my Mac and have the website transparently build and deploy upon saving the file locally.
+Have a seamless way to write blog posts on my Mac and have the website transparently build and deploy upon saving the file locally. This means that whenever I make changes to my website's code, the updates are automatically deployed to production without any manual intervention.
 
 ## How?
 ![cicd-workflow](cicd-workflow.excalidraw.svg)
