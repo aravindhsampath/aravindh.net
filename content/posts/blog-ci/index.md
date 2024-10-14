@@ -1,13 +1,12 @@
 +++
 author = "Aravindh Sampathkumar"
 categories = ["Computers"]
-date = 2024-01-15T12:00:00Z
+date = 2024-10-14T12:00:00Z
 summary = "CI setup of my personal website using Github Actions"
 tags = ["website", "hugo", “cicd"]
 title = "Poor mans CICD for personal website"
 type = "post"
 images = ["img/lcicd.jpg"]
-draft=true
 +++
 
 ## Goal
