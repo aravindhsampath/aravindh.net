@@ -66,7 +66,8 @@ jobs:
           commit_message: hugo_build_by_Actions
 ```
 ## Deployer.sh
-Here is a simple script I run on my Linux VM(Hetzner, but any infrastructure provider would do just the same). 
+Here is a simple script I run on my Linux VM(Hetzner, but any infrastructure provider would do just the same). The script polls github for the latest commit tag and if it is different from the local repo, does a git pull and deploy the changes to the web server root.
+
 ```bash
 #!/usr/bin/bash
 
@@ -116,4 +117,8 @@ if [ -f "$LOCAL_REPO_PATH/.git/HEAD" ]; then
 
 fi
 
+```
+And this script is run on cron as such:
+```
+*/15 9-23 * * *    asampath       /usr/bin/bash /home/asampath/deployer.sh
 ```
