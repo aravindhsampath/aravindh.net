@@ -25,3 +25,43 @@ An easy to use (local) Markdown editor that directly works with Github repositor
 [Noteshub](https://about.noteshub.app/)
 
 ![image](noteshub-screenshot.png)
+
+## Github Actions
+Here is a simple Github Actions workflow that does the following:
+1. Clone the contents of the repository
+2. Install hugo
+3. Build the static website using hugo
+4. Commit the newly built website to the same github repo 
+
+```
+name: Build and Deploy Hugo Website
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && \
+          sudo apt-get install -y hugo
+
+      - name: Build website
+        env:
+          HUGO_ENV: production
+        run: |
+          hugo --minify
+
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.COMMIT_TOKEN }}
+          commit_message: hugo_build_by_Actions
+```
