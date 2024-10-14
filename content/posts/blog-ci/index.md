@@ -65,3 +65,55 @@ jobs:
           github_token: ${{ secrets.COMMIT_TOKEN }}
           commit_message: hugo_build_by_Actions
 ```
+## Deployer.sh
+Here is a simple script I run on my Linux VM(Hetzner, but any infrastructure provider would do just the same). 
+```bash
+#!/usr/bin/bash
+
+  
+
+# Set the URL of the GitHub repository
+
+GITHUB_REPO_URL="https://github.com/aravindhsampath/aravindh.net"
+
+  
+
+# Set the path to the local clone of the repository
+
+LOCAL_REPO_PATH="/home/asampath/aravindh.net"
+
+  
+
+# Set the path to the web server's document root
+
+WEB_SERVER_DOC_ROOT="/home/caddy/www"
+
+
+# Check if the repository has changed since the last check
+
+if [ -f "$LOCAL_REPO_PATH/.git/HEAD" ]; then
+
+    # Get the latest commit hash from the GitHub repository
+
+
+    GITHUB_COMMIT_HASH=$(curl -s -X GET "https://api.github.com/repos/aravindhsampath/aravindh.net/commits?per_page=1" | jq -r '.[0].sha')
+
+    cd $LOCAL_REPO_PATH
+
+    # Check if the local repository is up-to-date with the remote repository
+
+    if [ "$(git rev-parse HEAD)" != "$GITHUB_COMMIT_HASH" ]; then
+
+        # Update the local repository to match the latest commit hash from GitHub
+
+        /usr/bin/git pull origin master --rebase
+
+        # Deploy changes to the web server's document root
+
+        /usr/bin/rsync -avh $LOCAL_REPO_PATH/public/ /home/caddy/www/
+
+    fi
+
+fi
+
+```
