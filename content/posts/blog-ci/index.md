@@ -122,3 +122,4 @@ And this script is run on cron as such:
 ```
 */15 9-23 * * *    asampath       /usr/bin/bash /home/asampath/deployer.sh
 ```
+The script polls for changes in the github repository every 15 minutes and “deploys” the website if there are any changes. The result is what you’re reading now.
