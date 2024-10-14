@@ -6,7 +6,7 @@ summary = "CI setup of my personal website using Github Actions"
 tags = ["website", "hugo", "cicd"]
 title = "Poor mans CICD for personal website"
 type = "post"
-images = ["img/lcicd.jpg"]
+images = ["img/cicd.jpg"]
 +++
 
 ## Goal
