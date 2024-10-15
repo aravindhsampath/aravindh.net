@@ -5,6 +5,6 @@ description: "A personal site"
 
 <p align="justify">
 
-I write about computers, notes on things I find interesting, and my wood working adventures.
+Welcome to my digital garden. I write about computers, my wood working adventures and anything that captures my fascination enough to obsess over for a time.
 
 </p>
