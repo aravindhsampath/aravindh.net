@@ -11,6 +11,7 @@ showReadingTime = false
 
 These are the blogs I read.
 
-* [Julia Evans](https://jvns.ca/)
-* [Chris Siebenmann - utoronto](https://utcc.utoronto.ca/~cks/space/blog/)
-* [Brendan Gregg](https://www.brendangregg.com/blog/index.html)
+* ![Julia Evans](https://jvns.ca/)
+* ![Chris Siebenmann - utoronto](https://utcc.utoronto.ca/~cks/space/blog/)
+* ![](https://www.brendangregg.com/blog/index.html)
+* ![](https://www.fromjason.xyz/)
