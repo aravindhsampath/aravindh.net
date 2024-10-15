@@ -6,7 +6,7 @@ summary = "From the trenches of High Performance Computing clusters"
 tags = ["Sysadmin", "SRE", "performance"]
 title = "Role of a sysadmin"
 type = "post"
-images = ["img/lean_fast.jpg"]
+images = [“img/sysadmin.jpg"]
 draft = false
 +++
 
