@@ -44,4 +44,22 @@ So, I buckled up and started the ride.
 ![datacenter](barn.png)
 ![wires](wires.png)
 
+## Reconnaissance
+Before I began, I needed to explore and understand what makes up this cluster and what I should be dealing with. Given the lack of documentation, I had to do the reconnaissance on my own. Here is how I went about it..
+
+**nmap** - scan the network(s) to determine which hosts are online, what services they offer(web, database, DNS, firewall etc), which operating system versions are they at, ports open in them and more.
+
+This resulted in an Excel document that I treated as an inventory from then on. 
+
+Next up, **DNS records**. Once I found out which servers are providing name resolution, I looked at their records to get a list of all services that could be in use by others. My Excel doc was made slightly better and richer with information.
+
+Next, searched for a centralised syslog somewhere, and realised there isnt one.
+
+Moving on, **users and groups**. Another result of the network probe was the NIS server that was acting as the identity provider. So, logged in there, and grabbed the list of users and groups. With the help of senior colleagues and some common sense poking around, I made notes of who uses the system, and the purpose of the groups. I had never worked with NIS before, and made note of it being a pain point.
+
+**Cron jobs** : One of the conversations with users of the systems pointed to some cron jobs that happen in the cluster. So, I listed crontab on all machines and obtained information about the cron jobs that were to be cared for. 
+
+An advantage of a controlled private cluster such as this one is that you can probe the entrypoint and understand which users can get how far. Since the primary interface to the clsuter was via SSH, I probed the `sshd_config` files to see who has access to go where.
+
+##
 
