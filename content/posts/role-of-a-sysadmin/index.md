@@ -7,7 +7,7 @@ tags = ["Sysadmin", "SRE", "performance"]
 title = "Role of a sysadmin"
 type = "post"
 images = ["img/lean_fast.jpg"]
-draft = true
+draft = false
 +++
 
 ## Duties
