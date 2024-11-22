@@ -36,6 +36,31 @@ Heb je een koophuis? Dan mag je alles aan de binnenkant van het huis veranderen.
 
 Do you own a home? Then you can change everything on the inside of the house. In a rental home this is different. For example, you are allowed to paint and wallpaper, but you are not allowed to simply renovate a rental home. Ask the owner for permission, for example if you want a new bathroom.
 
+Als het huis door de verbouwing in waarde omhooggaat, betaalt de eigenaar soms mee.
+Daarsta je in je nieuwe huis. Wat ga je doen? Controleer eerst het hele huis.
+Zitten er scheuren en gaten in de muren? Sluiten de ramen en deuren goed?
+Moet je een nieuwe vloer leggen? Moet je muren verven of behangen? Moet je apparaten in de keuken vervangen? Is er een televisie- en internetaansluiting?
+Moet je nog ergens plankjes ophangen?
+
+If the house increases in value due to the renovation, the owner sometimes pays for it.
+There you are in your new home. What are you going to do? First check the entire house.
+Are there cracks and holes in the walls? Do the windows and doors close properly?
+Do you need to lay a new floor? Do you need to paint or wallpaper walls? Do you need to replace appliances in the kitchen? Is there a television and internet connection?
+Do you need to hang shelves somewhere?
+
+Je weet nu wat je moet doen. Hopelijk ben je zelf handig of heb je handige vrienden en familie. Je kunt veel geld besparen als je het huis zelf opknapt. En denk ook eens aan spullen huren. Duur gereedschap kun je huren, bij winkels zoals Gamma. Echt grote klussen kan een vakman meestal beter doen.
+
+You now know what to do. Hopefully you are handy yourself or have handy friends and family. You can save a lot of money if you renovate the house yourself. And also consider renting things. You can rent expensive tools from shops such as Gamma. Really big jobs are usually better done by a professional.
+
+Vergeet ondertussen niet dat je ook geld voor de inrichting moet overhouden.
+Heb je nieuwe gordijnen nodig? Denk ook aan de verlichting. Moet je nieuwe lampen kopen? Passen je meubels in het nieuwe huis? Maak een lijstje van dingen die je moet kopen.
+Let op de aanbiedingen bij winkels zoals LeenBakker en Ikea. En kijk ook eens bij de kringloopwinkel of kijk op internet, op Marktplaats. Een tweedehands bank of tafel kan heel mooi zijn en is veel voordeliger dan nieuw natuurlijk.
+
+In the meantime, don't forget that you also need to save money for the interior.
+Do you need new curtains? Also think about the lighting. Do you need to buy new lamps? Does your furniture fit in the new house? Make a list of things you need to buy.
+Pay attention to the offers at shops such as LeenBakker and Ikea. And also take a look at the thrift store or look on the internet, at Marktplaats. A second-hand sofa or table can be very nice and is of course much cheaper than new.
+
+
 ## Basic grammar notes
 
 ## Vocabulary
@@ -45,10 +70,33 @@ inrichten - decorating
 zoeken - finding/searching
 verschillende - various
 woonplaatsen - places to live
+veranderen - change
+binnenkant - inside
+huurwoning - rental house
+bijvoorbeeld - example
+verven - to paint
+toestemming - permission
+soms - sometimes
+betaalt - pays
+omhooggaat - increases
+Controleer - check
+ergens - somewhere
+besparen - save (geld besparen)
+zoals - such as
+Echt grote - Really big
+meestal - usually
+lijstje van dingen - list of things
+aanbiedingen - offers
+voordeliger - cheaper
 
 ## Common phrases
 
 Maar wat nu? 
+Wat ga je doen? - What are you going to do?
 Je moet het huis misschien nog opknappen - You may still have to X
 wat mag je in je huis veranderen? - What can you [ in X ] change? 
 Heb je een X? - Do you have a X?
+Vraag toestemming aan de eigenaar - Ask permission from X
+Je weet nu wat je moet doen. - You know what to do.
+Heb je nieuwe gordijnen nodig? - Do you need new curtains? 
+En kijk ook eens bij de - And also take a look at the..
