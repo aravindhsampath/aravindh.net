@@ -1,8 +1,8 @@
 +++
 author = "Aravindh Sampathkumar"
-categories = [“Dutch"]
+categories = ["Dutch"]
 date = 2024-09-15T12:00:00Z
-summary = “Notes from Learning Dutch"
+summary = "Notes from Learning Dutch"
 tags = ["Dutch", "ChatGPT"]
 title = "Notes from Learning Dutch"
 type = "post"
