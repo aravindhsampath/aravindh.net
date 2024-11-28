@@ -80,47 +80,102 @@ I couldn't make contact because I didn't speak Dutch yet.
 
 ## Vocabulary
 over - about
+
 het opknappen - renovating
+
 inrichten - decorating
+
 zoeken - finding/searching
+
 verschillende - various
+
 woonplaatsen - places to live
+
 veranderen - change
+
 binnenkant - inside
+
 huurwoning - rental house
+
 bijvoorbeeld - example
+
 verven - to paint
+
 toestemming - permission
+
 soms - sometimes
+
 betaalt - pays
+
 omhooggaat - increases
+
 Controleer - check
+
 ergens - somewhere
+
 besparen - save (geld besparen)
+
 zoals - such as
+
 Echt grote - Really big
+
 meestal - usually
+
 lijstje van dingen - list of things
+
 aanbiedingen - offers
+
 voordeliger - cheaper
+
 net - just
+
 Toen - when
+
 kende - knew
+
 Niemand - nobody
+
 kon - could
+
 kon geen - couldnt
+
+voelde - felt
+
+eenzaam - lonely
+
+gaf - gave
+
+vertaling - translation
 
 
 
 ## Common phrases
 
 Maar wat nu? 
+
 Wat ga je doen? - What are you going to do?
+
 Je moet het huis misschien nog opknappen - You may still have to X
+
 wat mag je in je huis veranderen? - What can you [ in X ] change? 
+
 Heb je een X? - Do you have a X?
+
 Vraag toestemming aan de eigenaar - Ask permission from X
+
 Je weet nu wat je moet doen. - You know what to do.
+
 Heb je nieuwe gordijnen nodig? - Do you need new curtains? 
+
 En kijk ook eens bij de - And also take a look at the..
+
 Toen ik net in Nederland woonde - When I first moved to Netherlands...
+
+Ik voelde me eenzaam. - I felt lonely - I felt X
+
+Ze gaf me een briefje - She gave me a note. She gave me X
+
+Vanaf dat moment  - From that moment….
+
+net als ik - just like me.
+
