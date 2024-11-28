@@ -1,7 +1,7 @@
 +++
 author = "Aravindh Sampathkumar"
 categories = ["Dutch"]
-date = 2024-09-15T12:00:00Z
+date = 2024-11-28T12:00:00Z
 summary = "Notes from Learning Dutch - chapter 1"
 tags = ["Dutch", "ChatGPT"]
 title = "Chapter 1 - Notes from Learning Dutch"
