@@ -73,11 +73,11 @@ But one day, Marja stood at my door. She lived across the street. She gave me a 
 
 **Vanaf dat moment is Marja mijn taalmaatje. Ze is alleenstaand, net als ik. We zien elkaar één keer per week. Dan praten we bijvoorbeeld over haar kleinkinderen of de verschillen tussen onze culturen. Koken is onze gezamenlijke hobby. We koken samen typisch Nederlandse en Iraanse gerechten. Marja heeft gewerkt als docent, maar nu is ze met pensioen. Zelf wil ik graag een opleiding voor verpleegkundige volgen, maar eerst moet ik Staatsexamen doen.**
 
-
+From that moment on, Marja has been my language buddy. She is single, just like me. We see each other once a week. Then we talk about her grandchildren or the differences between our cultures, for example. Cooking is our shared hobby. We cook typical Dutch and Iranian dishes together. Marja used to work as a teacher, but she is now retired. I would like to study to become a nurse myself, but first I have to take the State Exam.
 
 **Door de gesprekken met Marja spreek ik al veel beter Nederlands. Vroeger schaamde ik me soms als ik met Nederlanders praatte. Nu vind ik het leuk om een praatje te maken.'**
 
-
+Thanks to the conversations with Marja, I already speak Dutch much better. In the past, I sometimes felt ashamed when talking to Dutch people. Now I enjoy having a chat.
 
 ## Basic grammar notes
 omdat construction - verb always comes at the end of the sentence.
@@ -155,6 +155,17 @@ vertaling - translation
 
 elkaar - each other
 
+tussen - between
+
+gezamenlijke - shared
+
+opleiding - education
+
+verpleegkundige -  nurse
+
+Vroeger - In the past
+
+schaamde - ashamed
 
 
 ## Common phrases
