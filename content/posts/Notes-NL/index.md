@@ -6,7 +6,7 @@ summary = "Notes from Learning Dutch - chapter 1"
 tags = ["Dutch", "ChatGPT"]
 title = "Chapter 1 - Notes from Learning Dutch"
 type = "post"
-draft = true
+draft = false
 +++
 
 I’m trying to learn Nederlands with a goal of being able to use it conversationally in practical life atleast at a child level. This is my evolving set of notes. 
@@ -60,8 +60,23 @@ In the meantime, don't forget that you also need to save money for the interior.
 Do you need new curtains? Also think about the lighting. Do you need to buy new lamps? Does your furniture fit in the new house? Make a list of things you need to buy.
 Pay attention to the offers at shops such as LeenBakker and Ikea. And also take a look at the thrift store or look on the internet, at Marktplaats. A second-hand sofa or table can be very nice and is of course much cheaper than new.
 
+'Toen ik net in Nederland woonde, kende ik niemand in mijn straat. Ik kon geen contact maken, omdat ik nog geen Nederlands sprak. En niemand probeerde met mij contact te maken. Ik miste mijn familie en vrienden uit Iran. Ik voelde me eenzaam.
+
+When I first moved to the Netherlands, 
+Maar op een dag stond Marja voor mijn deur. Ze woonde aan de overkant van de straat. Ze gaf me een briefje met een vertaling in mijn eigen taal:
+
+'Wil je Nederlands leren?". Dat vond ik heel lief.
+
+Vanaf dat moment is Marja mijn taalmaatje. Ze is alleenstaand, net als ik. We zien elkaar één keer per week. Dan praten we bijvoorbeeld over haar kleinkinderen of de verschillen tussen onze culturen. Koken is onze gezamenlijke hobby. We koken samen typisch Nederlandse en Iraanse gerechten. Marja heeft gewerkt als docent, maar nu is ze met pensioen. Zelf wil ik graag een opleiding voor verpleegkundige volgen, maar eerst moet ik Staatsexamen doen.
+
+Door de gesprekken met Marja spreek ik al veel beter Nederlands. Vroeger schaamde ik me soms als ik met Nederlanders praatte. Nu vind ik het leuk om een praatje te maken.'
+
+
 
 ## Basic grammar notes
+omdat construction - verb always comes at the end of the sentence.
+Ik kon geen contact maken, omdat ik nog geen Nederlands sprak. 
+I couldn't make contact because I didn't speak Dutch yet.
 
 ## Vocabulary
 over - about
@@ -88,6 +103,14 @@ meestal - usually
 lijstje van dingen - list of things
 aanbiedingen - offers
 voordeliger - cheaper
+net - just
+Toen - when
+kende - knew
+Niemand - nobody
+kon - could
+kon geen - couldnt
+
+
 
 ## Common phrases
 
@@ -100,3 +123,4 @@ Vraag toestemming aan de eigenaar - Ask permission from X
 Je weet nu wat je moet doen. - You know what to do.
 Heb je nieuwe gordijnen nodig? - Do you need new curtains? 
 En kijk ook eens bij de - And also take a look at the..
+Toen ik net in Nederland woonde - When I first moved to Netherlands...
