@@ -167,6 +167,48 @@ Vroeger - In the past
 
 schaamde - ashamed
 
+Aankomen - to arrive
+
+behalve - except
+
+bereiden - to prepare
+
+christelijk - christian
+
+dekken - to set
+
+eindingen - to end
+
+de familieleden - relatives
+
+feestelijk - festive
+
+hapjes - the snacks
+
+hoewel - although
+
+hoogtepunt - highlight
+
+gewoontes - habit
+
+overlijden - death
+
+opvoeding - upbringing
+
+belangrijke - important
+
+Urenlang - for hours
+
+Versieren - to decorate
+
+op bezoek - to visit
+
+Heerlijk - Delicious!
+
+Draagt - wears
+
+Gek eigenlijk - Crazy actually
+
 
 ## Common phrases
 
