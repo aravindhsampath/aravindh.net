@@ -253,6 +253,8 @@ mogelijk - possible
 
 moeilijk - difficult
 
+verhalen - stories
+
 
 
 
