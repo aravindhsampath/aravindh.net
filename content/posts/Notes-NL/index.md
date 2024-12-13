@@ -213,6 +213,8 @@ Kerstverhaal - Xmas story
 
 vieren - celebrate
 
+overlijden - death
+
 de begraafplaats - the cemetery
 
 de begrafenis - the funeral
@@ -238,6 +240,20 @@ verschillen - to differ
 voorbereiden - to prepare
 
 voorberidning - the preparation
+
+gewoontes - customs
+
+sturen - send
+
+vaste - fixed
+
+afscheid - farewell
+
+mogelijk - possible
+
+moeilijk - difficult
+
+
 
 
 ## Common phrases
@@ -269,4 +285,8 @@ Ze gaf me een briefje - She gave me a note. She gave me X
 Vanaf dat moment  - From that moment….
 
 net als ik - just like me.
+
+Wat zijn de regels - what are the rules
+
+
 
