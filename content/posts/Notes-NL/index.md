@@ -209,6 +209,36 @@ Draagt - wears
 
 Gek eigenlijk - Crazy actually
 
+Kerstverhaal - Xmas story
+
+vieren - celebrate
+
+de begraafplaats - the cemetery
+
+de begrafenis - the funeral
+
+bekendmaken - to announce
+
+de bijeenkomst - the meeting
+
+het onderdeel - the part
+
+overlijden - to die
+
+overlijdensbericht - the obituary
+
+Plaatsvinden - to take place
+
+de troost - the comfort
+
+Verdrietig - sad
+
+verschillen - to differ
+
+voorbereiden - to prepare
+
+voorberidning - the preparation
+
 
 ## Common phrases
 
